@@ -230,6 +230,7 @@ static OpenWebRTCNativeHandler *staticSelf;
                     g_warn_if_reached();
 
                 owr_media_session_set_send_payload(media_session, send_payload);
+                owr_media_session_add_receive_payload(media_session, send_payload);
             }
         }
         ice_ufrag = [mediaDescription[@"ice"][@"ufrag"] UTF8String];
@@ -542,7 +543,7 @@ static OpenWebRTCNativeHandler *staticSelf;
     } else {
         types = OWR_MEDIA_TYPE_UNKNOWN;
     }
-
+    
     owr_get_capture_sources(types, (OwrCaptureSourcesCallback)got_local_sources, NULL);
 }
 
@@ -1004,7 +1005,7 @@ static void reset()
 static void got_local_sources(GList *sources)
 {
     local_sources = g_list_copy(sources);
-    transport_agent = owr_transport_agent_new(FALSE);
+    transport_agent = owr_transport_agent_new(TRUE);
 
     for (NSDictionary *server in staticSelf.helperServers) {
         owr_transport_agent_add_helper_server(transport_agent,
@@ -1040,6 +1041,7 @@ static void got_local_sources(GList *sources)
 
         [sourceNames addObject:[NSString stringWithUTF8String:name]];
 
+#if 0   // Disable self-view
         if (!have_video && media_type == OWR_MEDIA_TYPE_VIDEO && source_type == OWR_SOURCE_TYPE_CAPTURE) {
             renderer = owr_video_renderer_new(SELF_VIEW_TAG);
             g_assert(renderer);
@@ -1050,6 +1052,8 @@ static void got_local_sources(GList *sources)
             owr_media_renderer_set_source(OWR_MEDIA_RENDERER(renderer), source);
             have_video = TRUE;
         }
+#endif
+        
         sources = sources->next;
     }
 
@@ -1100,7 +1104,7 @@ void prepare_media_sessions_for_local_sources(bool is_dtls_client)
                                               ],
                                       @"video": @[
                                               @{@"encodingName": @"H264", @"type": @103, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"parameters":
-                                                    @{@"packetizationMode": @1}},
+                                                    @{@"packetizationMode": @0}},
                                               @{@"encodingName": @"VP8", @"type": @100, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"nack": @YES},
                                               @{@"encodingName": @"RTX", @"type": @120, @"clockRate": @90000, @"parameters":
                                                     @{@"apt": @100, @"rtxTime": @200}}
@@ -1121,7 +1125,7 @@ static void prepare_media_session_for_source(OwrMediaSource *source, OwrMediaTyp
     session = G_OBJECT(media_session);
 
     g_object_set_data(session, "media-type", media_type == OWR_MEDIA_TYPE_AUDIO ? "audio" : "video");
-    g_object_set(media_session, "rtcp-mux", 1, NULL);
+    g_object_set(media_session, "rtcp-mux", 0, NULL);
     codec_type = OWR_CODEC_TYPE_NONE;
 
     OpenWebRTCSettings *settings = staticSelf.settings;
