@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "OpenWebRTC-SDK-custom"
+  s.name         = "OpenWebRTC-SDK"
   s.version      = "0.1.1"
   s.summary      = "Custom SDK for adding WebRTC to the app through OpenWebRTC"
   s.homepage     = "http://www.openwebrtc.io"
