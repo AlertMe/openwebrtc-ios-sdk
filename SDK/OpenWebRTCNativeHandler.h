@@ -45,8 +45,9 @@
 
 @property (nonatomic, weak) id <OpenWebRTCNativeHandlerDelegate> delegate;
 @property (nonatomic, strong) OpenWebRTCSettings *settings;
+@property (assign) NSInteger iceCompatability;
 
-- (instancetype)initWithDelegate:(id <OpenWebRTCNativeHandlerDelegate>)delegate;
+- (instancetype)initWithDelegate:(id <OpenWebRTCNativeHandlerDelegate>)delegate iceCompatability:(NSInteger)iceCompatability;
 
 - (void)setSelfView:(OpenWebRTCVideoView *)selfView;
 - (void)setRemoteView:(OpenWebRTCVideoView *)remoteView;

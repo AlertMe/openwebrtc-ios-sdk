@@ -76,12 +76,13 @@ static OpenWebRTCNativeHandler *staticSelf;
     return nil;
 }
 
-- (instancetype)initWithDelegate:(id <OpenWebRTCNativeHandlerDelegate>)delegate
+- (instancetype)initWithDelegate:(id <OpenWebRTCNativeHandlerDelegate>)delegate iceCompatability:(NSInteger)iceCompatability
 {
     if (self = [super init]) {
         staticSelf = self;
         _delegate = delegate;
         _settings = [[OpenWebRTCSettings alloc] initWithDefaults];
+	_iceCompatability = iceCompatability;
     }
     return self;
 }
@@ -1010,7 +1011,7 @@ static void reset()
 static void got_local_sources(GList *sources)
 {
     local_sources = g_list_copy(sources);
-    transport_agent = owr_transport_agent_new(TRUE);
+    transport_agent = owr_transport_agent_new_with_ice_compat(TRUE, (int)staticSelf.iceCompatability);
     
     for (NSDictionary *server in staticSelf.helperServers) {
         owr_transport_agent_add_helper_server(transport_agent,
