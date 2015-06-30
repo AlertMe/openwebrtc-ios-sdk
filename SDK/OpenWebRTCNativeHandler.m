@@ -1110,10 +1110,11 @@ void prepare_media_sessions_for_local_sources(bool is_dtls_client)
                                               ],
                                       @"video": @[
                                               @{@"encodingName": @"H264", @"type": @103, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"parameters":
-                                                    @{@"packetizationMode": @0}},
-                                              @{@"encodingName": @"VP8", @"type": @100, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"nack": @YES},
+                                                    @{@"packetizationMode": @0, @"max-fr": @30, @"max-recv-width": @1920, @"max-recv-height": @1080}},   // max: FullHD @ 30 fps
+                                              @{@"encodingName": @"VP8", @"type": @100, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"nack": @YES, @"parameters":
+                                                    @{@"max-fr": @30, @"max-recv-width": @1920, @"max-recv-height": @1080}},   // max: FullHD @ 30 fps
                                               @{@"encodingName": @"RTX", @"type": @120, @"clockRate": @90000, @"parameters":
-                                                    @{@"apt": @100, @"rtxTime": @200}}
+                                                    @{@"apt": @100, @"rtxTime": @200, @"max-fr": @30, @"max-recv-width": @1920, @"max-recv-height": @1080}},   // max: FullHD @ 30 fps
                                               ]
                                       };
     return defaultPayloads;
