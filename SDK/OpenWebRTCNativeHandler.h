@@ -41,6 +41,8 @@
 
 @end
 
+static BOOL isGeneratedOfferAudioFirst;
+
 @interface OpenWebRTCNativeHandler : NSObject
 
 @property (nonatomic, weak) id <OpenWebRTCNativeHandlerDelegate> delegate;

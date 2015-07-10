@@ -965,6 +965,12 @@ static void send_offer()
     
     sdp[@"mediaDescriptions"] = mediaDescriptions;
     
+    if ([mediaDescriptions[0][@"type"] isEqualToString:@"audio"]) {
+        isGeneratedOfferAudioFirst = YES;
+    } else {
+        isGeneratedOfferAudioFirst = NO;
+    }
+    
     return [OpenWebRTCUtils generateSDPFromObject:sdp];
 }
 
