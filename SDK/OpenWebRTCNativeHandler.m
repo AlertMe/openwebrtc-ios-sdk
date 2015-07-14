@@ -1003,7 +1003,8 @@ static void reset()
         media_sessions = g_object_steal_data(G_OBJECT(transport_agent), "media-sessions");
         for (item = media_sessions; item; item = item->next) {
             media_session = OWR_MEDIA_SESSION(item->data);
-            owr_media_session_set_send_source(media_session, NULL);
+            // transport_bin->pads is NULL; currently fixes crash. 
+//            owr_media_session_set_send_source(media_session, NULL);
         }
         g_list_free(media_sessions);
         g_object_unref(transport_agent);
