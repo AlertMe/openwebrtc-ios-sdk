@@ -1133,7 +1133,7 @@ static void prepare_media_session_for_source(OwrMediaSource *source, OwrMediaTyp
     session = G_OBJECT(media_session);
     
     g_object_set_data(session, "media-type", media_type == OWR_MEDIA_TYPE_AUDIO ? "audio" : "video");
-    g_object_set(media_session, "rtcp-mux", 0, NULL);
+    g_object_set(media_session, "rtcp-mux", 1, NULL);
     codec_type = OWR_CODEC_TYPE_NONE;
     
     OpenWebRTCSettings *settings = staticSelf.settings;
