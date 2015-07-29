@@ -1114,7 +1114,7 @@ void prepare_media_sessions_for_local_sources(bool is_dtls_client)
                                               @{@"encodingName": @"PCMU", @"type": @0, @"clockRate": @8000, @"channels": @1},
                                               ],
                                       @"video": @[
-                                              @{@"encodingName": @"H264", @"type": @103, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"parameters":
+                                              @{@"encodingName": @"H264", @"type": @97, @"clockRate": @90000, @"ccmfir": @YES, @"nackpli": @YES, @"parameters":
                                                     @{@"packetizationMode": @0, @"max-fr": @30, @"max-recv-width": @1920, @"max-recv-height": @1080}},   // max: FullHD @ 30 fps
                                               ]
                                       };
