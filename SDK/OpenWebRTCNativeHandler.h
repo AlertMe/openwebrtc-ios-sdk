@@ -45,12 +45,15 @@
 
 @end
 
+static BOOL isGeneratedOfferAudioFirst;
+
 @interface OpenWebRTCNativeHandler : NSObject
 
 @property (nonatomic, weak) id <OpenWebRTCNativeHandlerDelegate> delegate;
 @property (nonatomic, strong) OpenWebRTCSettings *settings;
+@property (assign) NSInteger iceCompatability;
 
-- (instancetype)initWithDelegate:(id <OpenWebRTCNativeHandlerDelegate>)delegate;
+- (instancetype)initWithDelegate:(id <OpenWebRTCNativeHandlerDelegate>)delegate iceCompatability:(NSInteger)iceCompatability;
 
 - (void)setSelfView:(OpenWebRTCVideoView *)selfView;
 - (void)removeSelfView;
@@ -67,6 +70,7 @@
 - (void)handleOfferReceived:(NSString *)offer;
 - (void)handleAnswerReceived:(NSString *)answer;
 - (void)handleRemoteCandidateReceived:(NSDictionary *)candidate;
+
 
 - (void)setVideoCaptureSourceByName:(NSString *)name;
 - (void)videoView:(OpenWebRTCVideoView *)videoView setVideoRotation:(NSInteger)degrees;
