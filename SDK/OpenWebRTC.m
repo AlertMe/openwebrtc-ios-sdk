@@ -41,28 +41,26 @@
 + (void)initialize
 {
     if (self == [OpenWebRTC class]) {
-        static BOOL isInitialized = NO;
-        if (!isInitialized) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
             owr_init(NULL);
             owr_run_in_background();
-
+            
             NSError* theError = nil;
             AVAudioSession *myAudioSession = [AVAudioSession sharedInstance];
             BOOL result = [myAudioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&theError];
-
+            
             if (!result) {
                 NSLog(@"[OpenWebRTC] ERROR! AVAudioSession setCategory failed");
             }
-
+            
             result = [myAudioSession setActive:YES error:&theError];
             if (!result) {
                 NSLog(@"[OpenWebRTC] ERROR! AVAudioSession setActive failed");
             }
-
+            
             NSLog(@"[OpenWebRTC] initialized correctly!");
-        }
-
-        isInitialized = YES;
+        });
     }
 }
 

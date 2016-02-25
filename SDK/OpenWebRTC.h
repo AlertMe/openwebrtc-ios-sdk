@@ -28,10 +28,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import <OpenWebRTC-SDK/OpenWebRTCVideoView.h>
-#import <OpenWebRTC-SDK/OpenWebRTCUtils.h>
-#import <OpenWebRTC-SDK/OpenWebRTCSettings.h>
-#import <OpenWebRTC-SDK/OpenWebRTCNativeHandler.h>
+#import "OpenWebRTCVideoView.h"
+#import "OpenWebRTCUtils.h"
+#import "OpenWebRTCSettings.h"
+#import "OpenWebRTCNativeHandler.h"
 
 #import "owr.h"
 

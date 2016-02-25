@@ -1119,22 +1119,24 @@ static void reset()
         renderers = NULL;
     }
     
-#ifdef SELF_VIEW_TAG    // Only when the self-view is enabled
-    owr_window_registry_unregister(owr_window_registry_get(), SELF_VIEW_TAG);
-#endif
-    
     owr_window_registry_unregister(owr_window_registry_get(), REMOTE_VIEW_TAG);
     
     if (transport_agent) {
         media_sessions = g_object_steal_data(G_OBJECT(transport_agent), "media-sessions");
         for (item = media_sessions; item; item = item->next) {
             media_session = OWR_MEDIA_SESSION(item->data);
-            // transport_bin->pads is NULL; currently fixes crash. 
-//            owr_media_session_set_send_source(media_session, NULL);
+            owr_media_session_set_send_source(media_session, NULL);
         }
         g_list_free(media_sessions);
+        
+        NSLog(@"REF: %d",transport_agent->parent_instance.ref_count);
+
         g_object_unref(transport_agent);
+        
+        NSLog(@"REF: %d",transport_agent->parent_instance.ref_count);
+        
         transport_agent = NULL;
+
     }
     
     g_list_free(local_sources);
@@ -1157,7 +1159,7 @@ static void got_local_sources(GList *sources)
                                               [server[@"username"] UTF8String],
                                               [server[@"password"] UTF8String]);
     }
-    
+
     gboolean have_video = FALSE;
 
     staticSelf.localSourceArray = [NSMutableArray array];
@@ -1178,7 +1180,7 @@ static void got_local_sources(GList *sources)
         
         /* We ref the sources because we want them to stay around. On iOS they will never be
          * unplugged, I expect, but it's safer this way. */
-        g_object_ref(source);
+//        g_object_ref(source);
         
         g_print("[%s/%s] %s\n", media_type == OWR_MEDIA_TYPE_AUDIO ? "audio" : "video",
                 source_type == OWR_SOURCE_TYPE_CAPTURE ? "capture" : source_type == OWR_SOURCE_TYPE_TEST ? "test" : "unknown",
@@ -1188,31 +1190,8 @@ static void got_local_sources(GList *sources)
                                  @"source": [NSValue valueWithPointer:source],
                                  @"mediaType": media_type == OWR_MEDIA_TYPE_AUDIO ? @"audio" : @"video"
                                  }];
-//
-//        if (!have_video && media_type == OWR_MEDIA_TYPE_VIDEO && source_type == OWR_SOURCE_TYPE_CAPTURE) {
-//            local_video_renderer = owr_video_renderer_new(SELF_VIEW_TAG);
-//            g_assert(local_video_renderer);
-//
-//            OpenWebRTCSettings *settings = staticSelf.settings;
-//            g_object_set(local_video_renderer, "width", settings.videoWidth, "height", settings.videoHeight, "max-framerate", settings.videoFramerate, NULL);
-//
-//            renderers = g_list_append(renderers, local_video_renderer);
-//            owr_media_renderer_set_source(OWR_MEDIA_RENDERER(local_video_renderer), source);
         
         [sourceNames addObject:[NSString stringWithUTF8String:name]];
-        
-#ifdef SELF_VIEW_TAG    // Only when the self-view is enabled
-        if (!have_video && media_type == OWR_MEDIA_TYPE_VIDEO && source_type == OWR_SOURCE_TYPE_CAPTURE) {
-            local_video_renderer = owr_video_renderer_new(SELF_VIEW_TAG);
-            g_assert(local_video_renderer);
-            
-            OpenWebRTCSettings *settings = staticSelf.settings;
-            g_object_set(local_video_renderer, "width", settings.videoWidth, "height", settings.videoHeight, "max-framerate", settings.videoFramerate, NULL);
-            
-            owr_media_renderer_set_source(OWR_MEDIA_RENDERER(local_video_renderer), source);
-            have_video = TRUE;
-        }
-#endif
         
         sources = sources->next;
     }
