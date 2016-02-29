@@ -38,3 +38,17 @@ end
 ## Overview
 
 As a quick overview, there are the classes to know to use the SDK.
+
+## Branches
+
+`master` - Contains upstream's master branch.
+
+`Z00-10288-master-custom` - Contains upstream's master branch changes as of February 2016 with our custom fixes and modifications for libnice and OpenWebRTC itself.
+
+`before-move` - Probably obsolete.
+
+`custom` - Contains custom changes. Probably obsolete.
+
+`offer` - Probably obsolete.
+
+`setting` - This branch is even with EricssonResearch:settings. Probably obsolete.
